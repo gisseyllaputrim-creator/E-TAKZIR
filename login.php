@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include 'koneksi.php';
@@ -17,13 +16,13 @@ if (isset($_POST['login'])) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
-    if ($user['role'] == 'pengurus') {
-        header("Location: pengurus/dashboard.php");
-    } elseif ($user['role'] == 'santri') {
-        header("Location: santri/dashboard.php");
-    } elseif ($user['role'] == 'orang_tua') {
-        header("Location: orang_tua/dashboard.php");
-    }
+        if ($user['role'] == 'pengurus') {
+            header("Location: pengurus/dashboard.php");
+        } elseif ($user['role'] == 'santri') {
+            header("Location: santri/dashboard.php");
+        } elseif ($user['role'] == 'orang_tua') {
+            header("Location: orang_tua/dashboard.php");
+        }
         exit;
     } else {
         $pesan = "Username atau password salah!";

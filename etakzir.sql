@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 20, 2026 at 12:13 PM
+-- Generation Time: Nov 20, 2026 at 12:12 PM
 -- Server version: 13.0.2-MariaDB
 -- PHP Version: 8.5.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `etakzir`
 --
+CREATE DATABASE IF NOT EXISTS `etakzir` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `etakzir`;
 
 -- --------------------------------------------------------
 
@@ -40,7 +42,7 @@ CREATE TABLE `orang_tua` (
 --
 
 INSERT INTO `orang_tua` (`id_orang_tua`, `id_user`, `id_santri`, `nama_orang_tua`, `no_hp`) VALUES
-(1, 3, 1, 'Bapak Trio', '087812333370');
+(2, 4, 1, 'Bapak Trio', '087812333370');
 
 -- --------------------------------------------------------
 
@@ -63,7 +65,7 @@ CREATE TABLE `pelanggaran` (
 --
 
 INSERT INTO `pelanggaran` (`id_pelanggaran`, `id_santri`, `id_pengurus`, `jenis_pelanggaran`, `poin`, `tanggal`, `keterangan`) VALUES
-(1, 1, 1, 'Merokok', 50, '2026-11-20', 'Peringatan 1');
+(2, 1, 1, 'Merokok', 50, '2026-11-20', 'Peringatan 1');
 
 -- --------------------------------------------------------
 
@@ -123,9 +125,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `role`) VALUES
-(1, 'keamanan', '$2y$12$ZCbuD3SJtGaQzXIQIYA1cegNdfZzJyolSatr5IQrD8ZgXCR/XLCoO', 'pengurus'),
-(2, 'Maulana', '$2y$12$ML4YlbjP9vzIG7XTRhCRSOU.X62JwcvCkbAWLJjDwX4pqVgeH2ova', 'santri'),
-(3, 'Bapak Trio', '$2y$12$WkuE3nepGMWYQhsE1W5/LOZLEyBlLKsc152m0SZE9cQ.StnV8q6am', 'orang_tua');
+(1, 'keamanan', '$2y$12$fKtbwaI.PgV9kJ2VX8ayAumkJhHnzg6az/GIm2nT2.WdVDyo8pdeS', 'pengurus'),
+(2, 'Maulana', '$2y$12$zViVD4wa.MTuZ1.f52B8RuVAY6bjkgpoF9bIVspyY4IYTuRfvIajS', 'santri'),
+(4, 'Bapak Trio', '$2y$12$P1xvxQcZ19WTWHe2y3tf6.6dw9kD8Aq6QSHs3pI4oHLAl1Wl3eEem', 'orang_tua');
 
 --
 -- Indexes for dumped tables
@@ -176,13 +178,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `orang_tua`
 --
 ALTER TABLE `orang_tua`
-  MODIFY `id_orang_tua` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_orang_tua` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pelanggaran`
 --
 ALTER TABLE `pelanggaran`
-  MODIFY `id_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pengurus`
@@ -200,7 +202,7 @@ ALTER TABLE `santri`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -231,6 +233,116 @@ ALTER TABLE `pengurus`
 --
 ALTER TABLE `santri`
   ADD CONSTRAINT `1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+--
+-- Database: `mutabaah`
+--
+CREATE DATABASE IF NOT EXISTS `mutabaah` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `mutabaah`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_ibadah`
+--
+
+CREATE TABLE `log_ibadah` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `sholat_subuh` tinyint(1) DEFAULT 0,
+  `sholat_dzuhur` tinyint(1) DEFAULT 0,
+  `sholat_ashar` tinyint(1) DEFAULT 0,
+  `sholat_maghrib` tinyint(1) DEFAULT 0,
+  `sholat_isya` tinyint(1) DEFAULT 0,
+  `tilawah_halaman` int(11) DEFAULT 0,
+  `catatan` text DEFAULT NULL,
+  `status_validasi` enum('menunggu','disetujui') NOT NULL DEFAULT 'menunggu',
+  `catatan_guru` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `log_ibadah`
+--
+
+INSERT INTO `log_ibadah` (`id`, `id_user`, `tanggal`, `sholat_subuh`, `sholat_dzuhur`, `sholat_ashar`, `sholat_maghrib`, `sholat_isya`, `tilawah_halaman`, `catatan`, `status_validasi`, `catatan_guru`) VALUES
+(1, 1, '2025-09-20', 1, 1, 1, 1, 1, 3, NULL, 'disetujui', NULL),
+(2, 1, '2025-09-21', 1, 1, 0, 1, 1, 2, NULL, 'disetujui', 'kenapa ini kok bolong'),
+(4, 1, '2026-09-26', 1, 1, 1, 1, 1, 20, 'yes', 'disetujui', 'bagus sekali, semoga lebih konsisten ya'),
+(5, 1, '2025-10-12', 1, 1, 1, 1, 1, 20, 'Alhamdulillah', 'disetujui', 'baik sekali'),
+(6, 1, '2026-10-12', 1, 1, 1, 1, 1, 20, 'alhamdulilla', 'disetujui', 'oke'),
+(8, 1, '2026-11-01', 1, 1, 1, 1, 1, 20, '', 'disetujui', ''),
+(10, 1, '2026-11-10', 1, 1, 1, 1, 1, 20, '', 'disetujui', 'oke baik');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nama_lengkap` varchar(100) NOT NULL,
+  `role` enum('siswa','guru','admin') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `nama_lengkap`, `role`) VALUES
+(1, 'siswa1', '$2a$12$Wx9ME9LjbPdK2eBa26X8SOxYQzbVbxHUlnVAcNu5tzcn7xmNSMi1O', 'Ahmad Abdullah', 'siswa'),
+(2, 'guru1', '$2a$12$ycH/kESZVL7BkOGWSiRSzu.LG0FWRxeTc41x.bmY63vYTkB5IhiHW', 'Guru Pribadi', 'guru');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `log_ibadah`
+--
+ALTER TABLE `log_ibadah`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_log_to_users` (`id_user`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `log_ibadah`
+--
+ALTER TABLE `log_ibadah`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `log_ibadah`
+--
+ALTER TABLE `log_ibadah`
+  ADD CONSTRAINT `fk_log_to_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+--
+-- Database: `test`
+--
+CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+USE `test`;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
